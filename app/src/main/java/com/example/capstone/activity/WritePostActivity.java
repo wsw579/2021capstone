@@ -88,6 +88,7 @@ public class WritePostActivity extends BasicActivity{
             switch (v.getId()){
                 case R.id.check:
                     storageUpload();
+                    startToast("check");
                     break;
                 case R.id.image:
                     myStartActivity(GalleryActivity.class,"image");
