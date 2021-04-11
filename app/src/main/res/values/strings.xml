@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Capstone</string>
+    <string name="signup">회원가입</string>
+    <string name="email">이메일</string>
+    <string name="signupbtn">회원가입</string>
+    <string name="password">비밀번호</string>
+    <string name="passwordcheck">비밀번호 확인</string>
+    <string name="loginButton">로그인</string>
+
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+
+</resources>
