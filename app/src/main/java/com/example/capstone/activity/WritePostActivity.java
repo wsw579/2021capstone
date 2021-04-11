@@ -104,10 +104,10 @@ public class WritePostActivity extends BasicActivity{
 
     private void storageUpload() {
         final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();
+        //final String contents = ((EditText) findViewById(R.id.contentsEditText)).getText().toString();
 
         if (title.length() > 0) {
             ArrayList<String> contentsList= new ArrayList<>();
-
             user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
@@ -115,66 +115,71 @@ public class WritePostActivity extends BasicActivity{
             for(int i=0; i<parent.getChildCount(); i++){
                 View view = parent.getChildAt(i);
                 if(view instanceof EditText){
-                    String text=((EditText)view).getText().toString();
+                    //String text= contents;
+                    String text = ((EditText)view).getText().toString();
                     if(text.length() > 0){
                         contentsList.add(text);
+                        Log.e(TAG, "here111");
                     }
-                }
-                else{
-                    contentsList.add(pathList.get(pathCount));
-                    final StorageReference mountainImagesRef = storageRef.child("users/"+user.getUid()+"/"+pathCount+".jpg");
+                    //WriteInfo writeinfo = new WriteInfo(title, contentsList, user.getUid(), new Date());
+                    //storeUpload(writeinfo);
+                    Log.e(TAG, "here222");
 
+                    //else 복붙 해도 안올라가긴 함
+
+                    //복붙끝
+
+                } else{
+                    Log.e(TAG, "here333");
+                    contentsList.add(pathList.get(pathCount));
+                    final StorageReference mountainImagesRef = storageRef.child("users/" + user.getUid() + "/" + pathCount +".jpg");
                     try{
                         InputStream stream = new FileInputStream(new File(pathList.get(pathCount)));
                         StorageMetadata metadata = new StorageMetadata.Builder().setCustomMetadata("index",""+(contentsList.size()-1)).build();
-
-                        UploadTask uploadTask= mountainImagesRef.putStream(stream,metadata);
+                        UploadTask uploadTask= mountainImagesRef.putStream(stream, metadata);
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 // Handle unsuccessful uploads
+                                Log.e(TAG, "here444");
                             }
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 final int index = Integer.parseInt(taskSnapshot.getMetadata().getCustomMetadata("index"));
-
                                 mountainImagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         Log.e("로그","uri :" +uri);
-                                        contentsList.set(index,uri.toString());
+                                        contentsList.set(index, uri.toString());
                                         successCount++;
                                         if (pathList.size() == successCount) {
-                                         //완료
-                                            WriteInfo writeinfo = new WriteInfo(title, contentsList, user.getUid() , new Date());
+                                            //완료
+                                            Log.e(TAG, "here222");
+                                            WriteInfo writeinfo = new WriteInfo(title, contentsList, user.getUid(), new Date());
                                             storeUpload(writeinfo);
-                                            for(int a=0; a<contentsList.size();a++)
-                                                Log.e("로그","콘텐츠: " +contentsList.get(a));
+                                            for (int a = 0; a < contentsList.size(); a++){
+                                                Log.e("로그", "콘텐츠: " + contentsList.get(a));
+                                            }
                                         }
                                     }
                                 });
-
-
                                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                // ...
-
-
                             }
                         });
-
-                    }catch (FileNotFoundException e){
+                    } catch (FileNotFoundException e){
                         Log.e("로그","에러"+e.toString());
                     }
-
                     pathCount++;
                 }
+                Log.e(TAG, "here666");
             }
-
         }else{
-            startToast("회원정보를 입력해주세요.");
+            startToast("제목을 입력해주세요.");
         }
+        Log.e(TAG, "here777");
     }
+
     private void storeUpload(WriteInfo writeInfo){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts").add(writeInfo)
