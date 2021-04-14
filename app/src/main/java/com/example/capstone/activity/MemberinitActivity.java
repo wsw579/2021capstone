@@ -58,8 +58,8 @@ public class MemberinitActivity extends BasicActivity{
         // 수정완료 - 수진
         profileImageVIew = findViewById(R.id.profileImageView);
         profileImageVIew.setOnClickListener(onClickListener);
-        findViewById(R.id.picture).setOnClickListener(onClickListener);
-        findViewById(R.id.gallery).setOnClickListener(onClickListener);
+        findViewById(R.id.imageModify).setOnClickListener(onClickListener);
+        findViewById(R.id.vidioModify).setOnClickListener(onClickListener);
 
     }
 
@@ -100,10 +100,10 @@ public class MemberinitActivity extends BasicActivity{
                             cardView.setVisibility(View.VISIBLE);
                         }
                         break;
-                    case R.id.picture:
+                    case R.id.imageModify:
                         myStartActivity(CameraActivity.class);
                         break;
-                    case R.id.gallery:
+                    case R.id.vidioModify:
 
                         if(ContextCompat.checkSelfPermission(MemberinitActivity.this,
                                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){

@@ -99,13 +99,13 @@
             android:visibility="visible">
 
             <Button
-                android:id="@+id/picture"
+                android:id="@+id/imageModify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="사진촬영" />
 
             <Button
-                android:id="@+id/gallery"
+                android:id="@+id/vidioModify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="갤러리" />
